@@ -11,9 +11,10 @@ function parseCents(value) {
   return cents > 0 && Number.isSafeInteger(cents) ? cents : null;
 }
 function money(cents) { return '$' + Math.floor(cents / 100).toLocaleString('en-US') + '.' + String(cents % 100).padStart(2, '0'); }
-function showSplit() {
+function showSplit(explicit = false) {
   const total = parseCents(amountInput.value);
   if (total === null) {
+    splitResult.replaceChildren();
     splitError.textContent = 'Try an amount from $0.01 to $999,999.99, with up to two decimal places.';
     amountInput.setAttribute('aria-invalid', 'true');
     return;
@@ -26,6 +27,9 @@ function showSplit() {
   const names = ['You', 'Friend 1', 'Friend 2', 'Friend 3', 'Friend 4', 'Friend 5'];
   const colors = ['mint', 'peach', 'lilac'];
   splitResult.replaceChildren();
+  const heading = document.createElement('h4'); heading.textContent = 'Your split is ready';
+  const status = document.createElement('p'); status.className = 'calculation-status'; status.textContent = money(total) + ' split between ' + people + ' people.';
+  splitResult.append(heading, status);
   for (let index = 0; index < people; index++) {
     const row = document.createElement('div'); row.className = 'split-person';
     const person = document.createElement('span');
@@ -37,9 +41,12 @@ function showSplit() {
   const note = document.createElement('p'); note.className = 'result-note';
   note.textContent = remainder ? 'Every cent included. The first ' + remainder + (remainder === 1 ? ' person gets' : ' people get') + ' one extra cent in their share.' : 'A perfect even split. Total: ' + money(total) + '.';
   splitResult.append(note);
+  if (explicit) { splitResult.tabIndex = -1; splitResult.focus({preventScroll:true}); splitResult.scrollIntoView({block:"center",behavior:matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth"}); }
 }
-splitForm.addEventListener('submit', event => { event.preventDefault(); showSplit(); });
-peopleInput.addEventListener('change', showSplit);
+splitForm.addEventListener('submit', event => { event.preventDefault(); showSplit(true); });
+function staleSplit() { splitResult.replaceChildren(); const note = document.createElement('p'); note.textContent = 'Numbers changed. Click Do the happy math to calculate your split.'; splitResult.append(note); }
+peopleInput.addEventListener('change', staleSplit);
+amountInput.addEventListener('input', staleSplit);
 showSplit();
 
 const launch = document.querySelector('#chat-launch');
