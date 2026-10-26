@@ -1,0 +1,9 @@
+Fairshare
+Copyright 2026 Fairshare contributors
+
+This project is independently implemented. Splitwise is a research reference
+and is not affiliated with this project. No Splitwise code or artwork is
+distributed with this app. Dependency licenses remain with their respective
+authors; see the Gradle dependency declarations and bundled license metadata.
+
+Portable exact arithmetic uses ionspin/kotlin-multiplatform-bignum (com.ionspin.kotlin:bignum), by Ugljesa Jovanovic, under the Apache License 2.0: https://github.com/ionspin/kotlin-multiplatform-bignum.

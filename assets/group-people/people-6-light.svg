@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="76" viewBox="0 0 120 76" role="img" aria-label="6 group members">
+<circle cx="28" cy="15" r="8" fill="#737373"/>
+<path d="M14 42v-5C14 21 42 21 42 37v5Z" fill="#737373"/>
+<circle cx="60" cy="15" r="8" fill="#737373"/>
+<path d="M46 42v-5C46 21 74 21 74 37v5Z" fill="#737373"/>
+<circle cx="92" cy="15" r="8" fill="#737373"/>
+<path d="M78 42v-5C78 21 106 21 106 37v5Z" fill="#737373"/>
+<circle cx="28" cy="36" r="8" fill="#525252"/>
+<path d="M14 63v-5C14 42 42 42 42 58v5Z" fill="#525252"/>
+<circle cx="60" cy="36" r="8" fill="#525252"/>
+<path d="M46 63v-5C46 42 74 42 74 58v5Z" fill="#525252"/>
+<circle cx="92" cy="36" r="8" fill="#525252"/>
+<path d="M78 63v-5C78 42 106 42 106 58v5Z" fill="#525252"/>
+</svg>
