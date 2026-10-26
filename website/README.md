@@ -14,7 +14,7 @@ The approved mark comes from branding/zeroit-mark.svg. The paper texture and pla
 
 ## Vercel hosting
 
-The production deployment is ready at https://zeroit.vercel.app, serving the four reviewed files in website/dist from source revision e2e1876. HTML, JavaScript and CSS were verified through authenticated access; anonymous access is not asserted. Automatic deployments from GitHub are not connected yet. To enable them, authorize the Vercel GitHub integration for this repository and connect the existing project with these settings:
+GitHub main pushes automatically deploy website/dist to production at https://zeroit.vercel.app. The motion source revision 2a58170 was verified in a READY deployment with source=git and that exact commit SHA. Subsequent documentation-only revisions retain the same website assets. Hosted content was checked through authenticated access; deployment protection remains enabled and anonymous access is not asserted. The connected static project uses these settings:
 
 | Setting | Value |
 | --- | --- |
@@ -30,4 +30,4 @@ These files can be served directly; do not run the mobile Gradle build for a web
 
 Keep deployment protection appropriate for the intended audience; an authenticated preview is not proof of public access. Never commit local .vercel, .openai, nested .git, credentials or deployment authentication material. No secrets or environment variables are required by the static site.
 
-After deployment, check the page and all three asset URLs, responsive layouts, keyboard focus, reduced motion, odd-cent splits and the local FAQ. Record the exact source revision and deployment URL; website publication does not qualify a mobile store release.
+After deployment, check the page and all referenced asset URLs, responsive layouts, keyboard focus, reduced motion, odd-cent splits and the local FAQ. Record the exact source revision and deployment URL; website publication does not qualify a mobile store release.

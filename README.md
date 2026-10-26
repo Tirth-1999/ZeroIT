@@ -8,7 +8,7 @@ Groups and direct expenses support five split modes, multiple payers, exact inte
 
 Visit the [ZeroIT website](https://zeroit.vercel.app) for a local equal-split demo and preset FAQ helper. The website does not access your mobile ledger, move money, or provide account synchronization.
 
-The Vercel deployment is ready. Deployment protection may require Vercel login; anonymous access is not asserted. Source and hosting instructions are in [website/README.md](website/README.md).
+GitHub main pushes automatically deploy the static website to Vercel. The motion source at revision 2a58170 was verified in a READY production deployment; documentation-only revisions do not change those website assets. Deployment protection may require Vercel login; anonymous access is not asserted. Source and hosting instructions are in [website/README.md](website/README.md).
 
 ## Build Android
 
