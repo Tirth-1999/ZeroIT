@@ -1,9 +1,33 @@
 # ZeroIT website
 
-Buildless, dependency-free product landing page. Serve `dist/` with any static HTTP server. Entry point: `dist/index.html`. No mobile source, ledger, or device operations are used.
+Buildless, dependency-free product landing page with a local equal-split demo and preset FAQ helper. Vercel hosting setup is in progress; no verified live Vercel URL is published here yet.
 
-The illustrated receipts are synthetic website examples, not app screenshots. Equal-split demo parses integer cents and allocates remaining cents in participant order. FAQ chat runs deterministic preset responses locally, uses textContent for user input, and sends no messages to any server. No AI, live support, analytics, account service or payment integration is claimed. No input survives reload.
+Serve `dist/` with any static HTTP server. From the repository root:
 
-Art direction: warm paper, subtle SVG noise, playful green/coral/lavender illustrations. Approved project logo is copied from branding/zeroit-mark.svg. Native CSS/HTML implementation; catalog research and usage-rights evidence are kept in the manager/research handoffs. No catalog source has been copied into this initial implementation.
+```sh
+python3 -m http.server 4173 --directory website/dist
+```
 
-Run local preview: `python3 -m http.server 4173 --directory website/dist` from the repository root. Manager owns Sites registration/publication and release agent owns Git commits. Check responsive desktop/mobile layouts, keyboard/focus, reduced motion, exact-cent remainders and local chat before acceptance.
+The illustrated receipts are synthetic examples, not app screenshots. The demo parses integer cents and allocates remaining cents in participant order. FAQ answers run locally, use textContent for user input and send no messages to a server. Inputs disappear on reload. No AI, live support, analytics, accounts or payment integration is included.
+
+The approved mark comes from branding/zeroit-mark.svg. The paper texture and playful illustrations are original HTML/CSS/SVG; no catalog component source was copied.
+
+## Vercel hosting
+
+The hosting configuration is intended to serve the four reviewed files in website/dist; deployment is not yet verified. Automatic deployments from GitHub are not connected yet. To enable them, authorize the Vercel GitHub integration for this repository and connect the existing project with these settings:
+
+| Setting | Value |
+| --- | --- |
+| Repository | Tirth-1999/ZeroIT |
+| Production branch | main |
+| Root Directory | website/dist |
+| Framework Preset | Other |
+| Build Command | Override enabled; empty |
+| Output Directory | . |
+| Dependency installation | None required |
+
+These files can be served directly; do not run the mobile Gradle build for a website deployment. Configure the Root Directory in the Vercel project settings. See [Vercel static build settings](https://vercel.com/docs/builds/configure-a-build).
+
+Keep deployment protection appropriate for the intended audience; an authenticated preview is not proof of public access. Never commit local .vercel, .openai, nested .git, credentials or deployment authentication material. No secrets or environment variables are required by the static site.
+
+After deployment, check the page and all three asset URLs, responsive layouts, keyboard focus, reduced motion, odd-cent splits and the local FAQ. Record the exact source revision and deployment URL; website publication does not qualify a mobile store release.

@@ -4,6 +4,12 @@ ZeroIT is a free, open-source expense app for Android and iOS, built with Kotlin
 
 Groups and direct expenses support five split modes, multiple payers, exact integer currency amounts, separate currency balances, manual settlement records, edit/delete/restore and audit history. A settlement records a payment made elsewhere; the app does not transfer money. Light, dark and system appearance are available. Sample data is synthetic.
 
+## Website
+
+Explore the [website demo source](website/README.md) for a local equal-split demo and preset FAQ helper. The website does not access your mobile ledger, move money, or provide account synchronization.
+
+Vercel hosting setup is in progress; a verified live Vercel link will be added here after deployment. Hosting instructions are in [website/README.md](website/README.md).
+
 ## Build Android
 
 Use JDK21 and Android SDK Platform35 with Build Tools35.0.0. Set ANDROID_HOME or an ignored local.properties containing sdk.dir.
@@ -32,7 +38,7 @@ Money stays in integer minor units; currencies are never added together or autom
 
 ## Status and verification
 
-This is a reviewed source baseline, not a public production release or complete Splitwise parity claim. Hosted CI configuration includes Android unit/lint/debug build and iOS shared tests/simulator build. This initial publication does not establish a fresh combined regression, successful hosted execution, safe backup/restore, store signing or release qualification. Historical workspace evidence and private research captures are intentionally not published. Reproduce and verify the exact revision for your intended use.
+This is a reviewed source baseline, not a public production release or complete Splitwise parity claim. [Hosted mobile checks passed for revision 2580c49](https://github.com/Tirth-1999/ZeroIT/actions/runs/40382656180): Android unit tests/lint/debug build and iOS shared tests/unsigned simulator build. Device acceptance, safe backup/restore, store signing and release qualification remain separate. Historical workspace evidence and private research captures are intentionally not published. Reproduce and verify the exact revision for your intended use.
 
 ## License
 
