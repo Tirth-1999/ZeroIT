@@ -9,3 +9,12 @@
 @media (prefers-reduced-motion:reduce){
   .ribbon>div{transform:none!important}
 }
+
+/* A decorative paper companion takes over after the full-width ribbon passes. */
+.journey-ribbon{position:fixed;z-index:24;top:calc(env(safe-area-inset-top,0px) + 14px);left:50%;width:min(680px,calc(100% - 48px));transform:translateX(-50%);pointer-events:none;visibility:hidden;opacity:0;user-select:none}
+.journey-shell{position:relative;background:var(--mint);border:1px solid var(--green);border-radius:12px;box-shadow:0 6px 20px #202b2420;overflow:hidden;padding:11px 0}
+.journey-track{display:flex;align-items:center;width:max-content;white-space:nowrap;font-size:12px;font-weight:bold;letter-spacing:.06em;word-spacing:5px;line-height:1.2}
+.journey-track span{display:inline-block;margin:0 20px;font-size:17px;vertical-align:middle}
+.journey-progress{position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--green);transform:scaleX(0);transform-origin:left center}
+@media(max-width:767px){.journey-shell{padding:9px 0;border-radius:9px}.journey-track{font-size:10px}.journey-track span{margin:0 15px;font-size:14px}}
+@media(prefers-reduced-motion:reduce){.journey-ribbon{display:none!important}}
