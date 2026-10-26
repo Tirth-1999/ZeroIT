@@ -1,0 +1,11 @@
+/* Motion remains subtle and never changes native scroll behaviour. */
+.situation-art{transition:box-shadow .25s ease}
+@media (hover:hover) and (prefers-reduced-motion:no-preference){
+  .situation:hover .situation-art{box-shadow:0 12px 22px #202b2415}
+  .nav-source,.chat-launch{transition:background-color .2s ease,box-shadow .2s ease}
+  .nav-source:hover{background:var(--mint)}
+  .chat-launch:hover{box-shadow:0 6px 28px #202b2440}
+}
+@media (prefers-reduced-motion:reduce){
+  .ribbon>div{transform:none!important}
+}
