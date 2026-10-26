@@ -1,6 +1,6 @@
 # ZeroIT website
 
-Buildless, dependency-free product landing page with a local equal-split demo and preset FAQ helper. Vercel hosting setup is in progress; no verified live Vercel URL is published here yet.
+Buildless, dependency-free product landing page with a local equal-split demo and preset FAQ helper. [Open the deployed website](https://zeroit.vercel.app). Deployment protection may require Vercel login.
 
 Serve `dist/` with any static HTTP server. From the repository root:
 
@@ -14,7 +14,7 @@ The approved mark comes from branding/zeroit-mark.svg. The paper texture and pla
 
 ## Vercel hosting
 
-The hosting configuration is intended to serve the four reviewed files in website/dist; deployment is not yet verified. Automatic deployments from GitHub are not connected yet. To enable them, authorize the Vercel GitHub integration for this repository and connect the existing project with these settings:
+The production deployment is ready at https://zeroit.vercel.app, serving the four reviewed files in website/dist from source revision e2e1876. HTML, JavaScript and CSS were verified through authenticated access; anonymous access is not asserted. Automatic deployments from GitHub are not connected yet. To enable them, authorize the Vercel GitHub integration for this repository and connect the existing project with these settings:
 
 | Setting | Value |
 | --- | --- |
