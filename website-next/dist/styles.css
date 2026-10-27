@@ -12,3 +12,18 @@
 .story-art-layer{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
 .closing-wordmark{overflow:hidden;line-height:1}
 .story-wordmark-text{display:block;flex-shrink:0}
+
+/* One decorative star connects the chapters without intercepting page controls. */
+.journey-star{position:fixed;top:0;left:0;width:clamp(26px,3.7vw,54px);height:clamp(26px,3.7vw,54px);z-index:5;pointer-events:none;background:var(--cream);clip-path:polygon(48% 0,57% 35%,86% 12%,66% 43%,100% 50%,65% 57%,87% 87%,56% 67%,50% 100%,43% 66%,13% 88%,34% 58%,0 50%,35% 43%,12% 12%,43% 35%);transform-origin:center}
+.journey-active .scene-spark{visibility:hidden}
+/* The SVG lower fill follows the same curve as the frill: no straight section seam. */
+.ribbon-chapter{background:var(--green)}
+.ribbon-caption{color:var(--cream)}
+#ribbon-stage{background:var(--green)}
+/* Reserve a real track beneath the letters; static/reduced-motion markup stays intact. */
+.closing-wordmark.journey-wordmark-active{font-size:min(27vw,440px,58svh);margin-bottom:0;position:relative;overflow:visible;align-items:flex-start;gap:0;padding-bottom:.24em}
+.journey-wordmark-word{display:inline-flex;align-items:baseline;flex-shrink:0;white-space:nowrap}
+.journey-letter{display:inline-block;transform-origin:50% 100%}
+.journey-wordmark-active .wordmark-dot{position:absolute;left:0;bottom:.015em;margin:0;pointer-events:none;transform-origin:center}
+
+.pin-spacer-zeroit-finale-stage{background:var(--lavender)}
