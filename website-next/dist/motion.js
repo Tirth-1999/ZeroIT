@@ -71,7 +71,13 @@
     textNode.before(word); textNode.remove();
     wordmark.classList.add('journey-wordmark-active');
     const star = document.createElement('div'); star.className = 'journey-star';
-    star.setAttribute('aria-hidden', 'true'); document.body.append(star);
+    star.setAttribute('aria-hidden', 'true');
+    // Opposing outline stays visible even when a pale star crosses a pale receipt.
+    star.style.clipPath = 'none'; star.style.background = 'transparent';
+    const starSvg = node('svg', { viewBox: '0 0 100 100', width: '100%', height: '100%', 'aria-hidden': 'true' });
+    starSvg.append(node('polygon', { points: '48,3 57,35 84,14 66,43 97,50 65,57 85,85 56,67 50,97 43,66 15,86 34,58 3,50 35,43 14,14 43,35',
+      fill: 'currentColor', stroke: 'var(--journey-outline)', 'stroke-width': 4, 'stroke-linejoin': 'round' }));
+    star.append(starSvg); document.body.append(star);
     document.body.classList.add('journey-active');
     const driver = { scroll: window.scrollY };
     const clamp = (value, low = 0, high = 1) => Math.min(high, Math.max(low, value));
@@ -94,7 +100,17 @@
       const closingStart = finale.start;
       const ballY = box(finale.spacer).top + markRect.top - closingRect.top + dot.offsetTop + radius;
       const endX = Math.min(wordBox.width + radius * 1.4, mark.width - ball.width);
-      metrics = { width, height, max, closingStart, closingEnd: finale.end, size, radius, endX,
+      const font = getComputedStyle(wordmark);
+      const canvas = document.createElement('canvas').getContext('2d');
+      canvas.font = `${font.fontWeight} ${font.fontSize} ${font.fontFamily}`;
+      const glyph = canvas.measureText('T');
+      // CSS line-box leading + font baseline gives punctuation the same bottom as the T glyph.
+      const ascent = glyph.fontBoundingBoxAscent ?? parseFloat(font.fontSize) * 0.9;
+      const descent = glyph.fontBoundingBoxDescent ?? parseFloat(font.fontSize) * 0.2;
+      const baselineOffset = (parseFloat(font.lineHeight) - ascent - descent) / 2 + ascent;
+      const punctuationY = baselineOffset + (glyph.actualBoundingBoxDescent || 0) - radius;
+      const endY = punctuationY - (dot.offsetTop + radius);
+      metrics = { width, height, max, closingStart, closingEnd: finale.end, size, radius, endX, endY,
         ballX: markRect.left + dot.offsetLeft + radius, ballY,
         wordmarkY: box(finale.spacer).top + markRect.top - closingRect.top,
         fontSize: parseFloat(getComputedStyle(wordmark).fontSize), frillBox: stage ? box(stage) : null,
@@ -132,8 +148,11 @@
       if (!metrics || document.hidden) return;
       const s = driver.scroll, m = metrics;
       const p = clamp((s - m.closingStart) / Math.max(1, m.closingEnd - m.closingStart));
-      const ballX = m.endX * p;
-      dot.style.transform = `translate3d(${ballX}px,0,0) rotate(${p * 720}deg) scale(${1 + Math.sin(Math.PI * clamp((p - 0.88) / 0.12)) * 0.12})`;
+      const curl = clamp((p - 0.7) / 0.3);
+      const roll = clamp(p / 0.7);
+      const ballX = curl ? m.endX * (0.82 + 0.18 * Math.sin(curl * Math.PI / 2)) : m.endX * 0.82 * roll;
+      const ballY = m.endY * (1 - Math.cos(curl * Math.PI / 2));
+      dot.style.transform = `translate3d(${ballX}px,${ballY}px,0) rotate(${p * 720}deg) scale(${1 + Math.sin(Math.PI * clamp((p - 0.88) / 0.12)) * 0.12})`;
       characters.forEach((letter, index) => {
         const distance = (ballX + m.radius - m.letterCenters[index]) / (m.fontSize * 0.36);
         const wave = Math.exp(-distance * distance * 2) * (1 - smooth(clamp((p - 0.86) / 0.14)));
@@ -146,18 +165,22 @@
         const a = points[index], b = points[index + 1];
         const t = clamp((s - a.at) / Math.max(1, b.at - a.at));
         x = lerp(a.x, b.x, smooth(t));
-        const arc = index ? Math.min(m.height * 0.16, 100) : 0;
-        y = lerp(a.y, b.y, t) - arc * 4 * t * (1 - t);
+        const envelope = Math.sin(Math.PI * t);
+        const personality = (Math.sin(index * 2.17 + 0.8) + 1) / 2;
+        const arc = index ? Math.min(m.height * (0.09 + personality * 0.14), 145) : 0;
+        const drift = index ? Math.sin(t * Math.PI * 2) * envelope * Math.min(m.width * 0.045, 65) * (index % 2 ? 1 : -1) : 0;
+        x = clamp(x + drift, m.size * 0.7, m.width - m.size * 0.7);
+        y = lerp(a.y, b.y, t) - arc * 4 * t * (1 - t) + Math.sin(t * Math.PI * 3) * envelope * arc * 0.2;
         squash = index ? Math.pow(1 - t, 9) * 0.16 : 0;
       } else {
         const a = points.at(-1), t = smooth(clamp(p / 0.94));
         x = lerp(a.x, m.ballX + ballX, t);
         const advance = clamp(s - m.closingStart, 0, m.closingEnd - m.closingStart);
-        y = lerp(a.y + advance, m.ballY + advance, t) - Math.sin(Math.PI * t) * m.height * 0.04;
+        y = lerp(a.y + advance, m.ballY + ballY + advance, t) - Math.sin(Math.PI * t) * m.height * 0.04;
         scale = 1 - smooth(clamp((p - 0.88) / 0.12));
       }
       const section = m.sections.find(section => y >= section.top && y <= section.bottom);
-      star.style.transform = `translate3d(${x}px,${y - s}px,0) translate(-50%,-50%) rotate(${s * 0.32}deg) scale(${(1 + squash) * scale},${(1 - squash) * scale})`;
+      star.style.transform = `translate3d(${x}px,${y - s}px,0) translate(-50%,-50%) rotate(${s * 0.29 + Math.sin(s / 230) * 38}deg) scale(${(1 + squash) * scale},${(1 - squash) * scale})`;
       let dark = section?.dark;
       if (m.frillBox && y >= m.frillBox.top && y <= m.frillBox.top + m.frillBox.height) {
         const localX = (x - m.frillBox.left) * 1200 / m.frillBox.width;
@@ -165,7 +188,8 @@
         const topOfBand = frillHeight / 2 + Math.sin(localX * Math.PI * 2 / 1400 - 0.45 + state.progress * 2.5) * amplitude - 50;
         dark = y < m.frillBox.top + topOfBand * m.frillBox.width / 1200;
       }
-      star.style.backgroundColor = dark ? '#f5f0d9' : '#144d3b';
+      star.style.color = dark ? '#f5f0d9' : '#144d3b';
+      star.style.setProperty('--journey-outline', dark ? '#144d3b' : '#f5f0d9');
       star.style.opacity = scale < 0.01 ? '0' : '1';
       star.dataset.journeyProgress = (s / Math.max(1, m.max)).toFixed(3);
       wordmark.dataset.rollProgress = p.toFixed(3);
