@@ -2,6 +2,8 @@
 
 A separate, original presentation prototype for ZeroIT. The existing `website/` remains the current site; this directory does not replace it.
 
+[Open the separate design preview](https://zeroit-next.vercel.app). The new zeroit-next Vercel project is READY with source revision `8132af02b37d23c3343851e235f241ce23051703`; its API target is production within that separate project. It does not replace the existing ZeroIT site or its alias. Hosted HTML, scripts and CSS were checked through authenticated access. Default deployment protection remains enabled, so Vercel login may be required; anonymous access is not asserted. This documentation update leaves the preview source assets unchanged.
+
 Serve `dist/` as static files. From the repository root:
 
 ```sh
