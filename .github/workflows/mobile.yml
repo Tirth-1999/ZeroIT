@@ -16,7 +16,7 @@ jobs:
           packages: platform-tools platforms;android-35 platforms;android-36 build-tools;35.0.0 build-tools;36.0.0
       - uses: gradle/actions/setup-gradle@v4
       - run: ./gradlew :app:testDebugUnitTest :shared:testDebugUnitTest :app:lintDebug :app:assembleDebug
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: fairshare-android-debug
           path: app/build/outputs/apk/debug/app-debug.apk
@@ -35,7 +35,7 @@ jobs:
       - run: xcodebuild -version
       - run: ./gradlew '-Dorg.gradle.jvmargs=-Xmx3g -Dfile.encoding=UTF-8' :shared:iosSimulatorArm64Test
       - run: bash scripts/ios-build.sh
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v7
         with:
           name: fairshare-ios-simulator
           path: reference/ios-derived-data/Build/Products/Debug-iphonesimulator/Fairshare.app
