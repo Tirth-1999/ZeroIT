@@ -1,0 +1,6 @@
+GSAP and ScrollTrigger 3.15.0
+Copyright 2026 GreenSock. All rights reserved.
+Source: https://registry.npmjs.org/gsap/-/gsap-3.15.0.tgz
+License: GSAP Standard no-charge license, https://gsap.com/standard-license
+Original copyright/license headers retained in each distributed file.
+ZeroIT's original application code is licensed separately; these vendor files are not relicensed under the project license.
