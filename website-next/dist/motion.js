@@ -63,6 +63,8 @@
     const textNode = wordmark && Array.from(wordmark.childNodes).find(n => n.nodeType === Node.TEXT_NODE && n.textContent.trim());
     if (!spark || !dot || !textNode || !closingSection) return () => {};
     const originalDotStyle = dot.getAttribute('style');
+    const originalOverflow = closingSection.style.overflow;
+    closingSection.style.overflow = 'visible';
     const word = document.createElement('span'); word.className = 'journey-wordmark-word';
     const characters = Array.from(textNode.textContent.trim(), character => {
       const letter = document.createElement('span'); letter.className = 'journey-letter'; letter.textContent = character;
@@ -109,8 +111,9 @@
       const descent = glyph.fontBoundingBoxDescent ?? parseFloat(font.fontSize) * 0.2;
       const baselineOffset = (parseFloat(font.lineHeight) - ascent - descent) / 2 + ascent;
       const punctuationY = baselineOffset + (glyph.actualBoundingBoxDescent || 0) - radius;
+      const settleY = Math.max(0, closingSection.offsetHeight - (markRect.top - closingRect.top + baselineOffset + (glyph.actualBoundingBoxDescent || 0)));
       const endY = punctuationY - (dot.offsetTop + radius);
-      metrics = { width, height, max, closingStart, closingEnd: finale.end, size, radius, endX, endY,
+      metrics = { width, height, max, closingStart, closingEnd: finale.end, size, radius, endX, endY, settleY,
         ballX: markRect.left + dot.offsetLeft + radius, ballY,
         wordmarkY: box(finale.spacer).top + markRect.top - closingRect.top,
         fontSize: parseFloat(getComputedStyle(wordmark).fontSize), frillBox: stage ? box(stage) : null,
@@ -151,7 +154,9 @@
       const curl = clamp((p - 0.7) / 0.3);
       const roll = clamp(p / 0.7);
       const ballX = curl ? m.endX * (0.82 + 0.18 * Math.sin(curl * Math.PI / 2)) : m.endX * 0.82 * roll;
-      const ballY = m.endY * (1 - Math.cos(curl * Math.PI / 2));
+      const settleY = m.settleY * smooth(curl);
+      word.style.transform = `translateY(${settleY}px)`;
+      const ballY = m.endY * (1 - Math.cos(curl * Math.PI / 2)) + settleY + Math.sin(curl * Math.PI) * Math.min(m.fontSize * 0.06, 22);
       dot.style.transform = `translate3d(${ballX}px,${ballY}px,0) rotate(${p * 720}deg) scale(${1 + Math.sin(Math.PI * clamp((p - 0.88) / 0.12)) * 0.12})`;
       characters.forEach((letter, index) => {
         const distance = (ballX + m.radius - m.letterCenters[index]) / (m.fontSize * 0.36);
@@ -208,6 +213,7 @@
       tween.scrollTrigger?.kill(); tween.kill(); finale.kill(true); star.remove();
       document.removeEventListener('visibilitychange', resumeJourney);
       word.replaceWith(textNode); wordmark.classList.remove('journey-wordmark-active');
+      closingSection.style.overflow = originalOverflow;
       document.body.classList.remove('journey-active');
       if (originalDotStyle === null) dot.removeAttribute('style'); else dot.setAttribute('style', originalDotStyle);
       delete wordmark.dataset.rollProgress;
