@@ -6,11 +6,11 @@ plugins {
 
 android {
     namespace = "org.fairshare.app"
-    compileSdk = 35
+    compileSdk = 36
     defaultConfig {
         applicationId = "org.fairshare.app"
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 36
         versionCode = 14
         versionName = "0.4.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
