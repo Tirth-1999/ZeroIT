@@ -6,3 +6,9 @@
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
 /* Keep the decorative slash inside its narrow reserved grid column. */
 @media(max-width:767px){.principle-mark{font-size:24px;width:20px;line-height:1;text-align:center;transform:none;justify-self:center;align-self:start}}
+
+/* Scroll-story layers animate artwork, never interactive controls or page geometry. */
+.story-scene-layer{position:absolute;inset:0;pointer-events:none}
+.story-art-layer{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.closing-wordmark{overflow:hidden;line-height:1}
+.story-wordmark-text{display:block;flex-shrink:0}

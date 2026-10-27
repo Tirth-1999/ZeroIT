@@ -74,11 +74,55 @@
         onRefresh(self) { state.progress = self.progress; drawIfVisible(); }
       });
     }
-    document.querySelectorAll('[data-reveal]').forEach(target => {
-      gsap.from(target, { y: 28, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: target, start: 'top 94%', once: true } });
+    // Independent layers preserve the approved layout and each illustration's own rotation.
+    const restoreLayers = [];
+    const layerAround = (target, className) => {
+      const layer = document.createElement('div'); layer.className = className;
+      target.before(layer); layer.append(target);
+      restoreLayers.push(() => { layer.replaceWith(...layer.childNodes); });
+      return layer;
+    };
+    const hero = document.querySelector('.hero');
+    const receipts = document.querySelectorAll('.receipt-scene > .mini-receipt');
+    if (hero) {
+      receipts.forEach((card, index) => {
+        const outer = layerAround(card, 'story-scene-layer');
+        const entrance = layerAround(card, 'story-scene-layer');
+        const direction = index ? 1 : -1;
+        gsap.from(entrance, { x: () => direction * Math.min(innerWidth * 0.75, 1200), y: 70,
+          rotation: direction * 9, duration: 1.25, delay: index * 0.14, ease: 'power3.out' });
+        gsap.to(outer, { y: -55, rotation: direction * 3, scale: 0.96, ease: 'none',
+          scrollTrigger: { id: 'story-hero-' + index, trigger: hero, start: 'top top', end: 'bottom top', scrub: 0.7, invalidateOnRefresh: true } });
+      });
+    }
+    // Each framed scene tells a small story: the main object arrives, then its note lands.
+    document.querySelectorAll('.moment-art').forEach((frame, index) => {
+      const objects = Array.from(frame.children);
+      const timeline = gsap.timeline({scrollTrigger: { id: 'story-moment-' + index, trigger: frame,
+        start: 'top 94%', end: 'center 58%', scrub: 0.65, invalidateOnRefresh: true }});
+      objects.forEach((object, item) => {
+        const layer = layerAround(object, 'story-art-layer');
+        const direction = (index + item) % 2 ? 1 : -1;
+        timeline.fromTo(layer, { x: () => direction * (frame.clientWidth + 80), y: item ? -60 : 65,
+          rotation: direction * (item ? 10 : 5), scale: item ? 0.86 : 0.95 },
+          { x: 0, y: 0, rotation: 0, scale: 1, duration: 1, ease: 'power2.out' }, item * 0.18);
+      });
     });
-    document.querySelectorAll('[data-parallax]').forEach(target => {
-      gsap.to(target, { y: -18, ease: 'none', scrollTrigger: { trigger: target, start: 'top bottom', end: 'bottom top', scrub: 0.6 } });
+    const wordmark = document.querySelector('.closing-wordmark');
+    const closing = document.querySelector('.closing');
+    if (wordmark && closing) {
+      const textNode = Array.from(wordmark.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim());
+      if (textNode) {
+        const textLayer = document.createElement('span'); textLayer.className = 'story-wordmark-text';
+        textNode.before(textLayer); textLayer.append(textNode);
+        restoreLayers.push(() => { textLayer.replaceWith(...textLayer.childNodes); });
+        gsap.fromTo(textLayer, { yPercent: 110 }, { yPercent: 0, ease: 'none',
+          scrollTrigger: { id: 'story-closing', trigger: closing, start: 'top 75%', end: 'bottom bottom', scrub: 0.65 } });
+      }
+    }
+    document.querySelectorAll('[data-reveal]').forEach(target => {
+      if (target.closest('.receipt-scene') || target.querySelector('a,button,input,select,textarea')) return;
+      gsap.from(target, { y: 28, duration: 0.8, ease: 'power2.out', scrollTrigger: { trigger: target, start: 'top 94%', once: true } });
     });
     const visibilityChanged = () => {
       if (document.hidden) { relaxation?.kill(); state.velocity = 0; }
@@ -87,6 +131,7 @@
     document.addEventListener('visibilitychange', visibilityChanged);
     return () => {
       observer?.disconnect(); relaxation?.kill();
+      restoreLayers.reverse().forEach(restore => restore());
       document.removeEventListener('visibilitychange', visibilityChanged);
       state.progress = 0.24; state.velocity = 0; render();
     };
