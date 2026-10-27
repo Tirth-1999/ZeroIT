@@ -1,0 +1,122 @@
+name: Security analysis
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  schedule:
+    - cron: '23 8 * * 1'
+  workflow_dispatch:
+
+# No deployment, signing, package publication or pull-request write permission.
+# Fork PRs use GitHub's restricted pull_request token; never pull_request_target.
+permissions:
+  contents: read
+
+concurrency:
+  group: security-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  kotlin:
+    name: CodeQL Android and shared JVM Kotlin
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Java
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Set up Android SDKs for current and API36 migration builds
+        uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
+        with:
+          packages: platform-tools platforms;android-35 platforms;android-36 build-tools;35.0.0 build-tools;36.0.0
+      - name: Initialize Kotlin analysis
+        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          languages: java-kotlin
+          build-mode: manual
+          queries: security-extended
+      # Kotlin is not supported by CodeQL's no-build mode. Force actual compiler
+      # invocations; do not restore compiled outputs that could bypass extraction.
+      - name: Compile Android and shared production Kotlin for extraction
+        run: ./gradlew --no-daemon --no-build-cache --rerun-tasks -Pkotlin.compiler.execution.strategy=in-process :app:assembleDebug
+      - name: Analyze compiled JVM sources
+        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          category: /language:java-kotlin/platform:android-jvm
+
+  javascript:
+    name: CodeQL website JavaScript
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      security-events: write
+    steps:
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Initialize website analysis
+        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          languages: javascript-typescript
+          queries: security-extended
+          config: |
+            paths:
+              - website/dist
+              - website-next/dist
+            paths-ignore:
+              - '**/vendor/**'
+      - name: Analyze authored website JavaScript
+        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          category: /language:javascript-typescript/platform:website
+
+  swift:
+    name: CodeQL iOS Swift host
+    runs-on: macos-15
+    timeout-minutes: 60
+    permissions:
+      contents: read
+      security-events: write
+    env:
+      GRADLE_USER_HOME: ${{ github.workspace }}/reference/gradle-home
+      KONAN_DATA_DIR: ${{ github.workspace }}/reference/konan
+    steps:
+      - name: Check out source without persisted credentials
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - name: Set up Java for the shared framework build
+        uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3 # v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - name: Record Xcode toolchain
+        run: xcodebuild -version
+      - name: Initialize Swift analysis
+        uses: github/codeql-action/init@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          languages: swift
+          build-mode: manual
+          queries: security-extended
+      # Fresh runner/DerivedData ensures Swift compilation is observed. The
+      # existing Xcode phase builds the shared framework without device signing.
+      # This database covers the Swift host, not Kotlin/Native source analysis.
+      - name: Compile the unsigned simulator host for extraction
+        run: bash scripts/ios-build.sh COMPILER_INDEX_STORE_ENABLE=NO
+      - name: Analyze compiled Swift host
+        uses: github/codeql-action/analyze@9b3254085494b55a0f7c4c2b3d2d52cc712ce370 # v4
+        with:
+          category: /language:swift/platform:ios-host
