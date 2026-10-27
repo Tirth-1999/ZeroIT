@@ -23,7 +23,7 @@ kotlin {
             implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.8.1")
             implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.2")
             implementation("com.ionspin.kotlin:bignum:0.3.10")
-            api("androidx.room:room-runtime:2.7.1")
+            api("androidx.room:room-runtime:2.8.5")
             implementation("androidx.sqlite:sqlite-bundled:2.5.1")
         }
         androidMain.dependencies {
@@ -40,8 +40,8 @@ android {
     compileOptions { sourceCompatibility = JavaVersion.VERSION_17; targetCompatibility = JavaVersion.VERSION_17 }
 }
 dependencies {
-    add("kspAndroid", "androidx.room:room-compiler:2.7.1")
-    add("kspIosArm64", "androidx.room:room-compiler:2.7.1")
-    add("kspIosSimulatorArm64", "androidx.room:room-compiler:2.7.1")
+    add("kspAndroid", "androidx.room:room-compiler:2.8.5")
+    add("kspIosArm64", "androidx.room:room-compiler:2.8.5")
+    add("kspIosSimulatorArm64", "androidx.room:room-compiler:2.8.5")
 }
 ksp { arg("room.schemaLocation", "$projectDir/schemas") }
