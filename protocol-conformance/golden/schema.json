@@ -1,0 +1,1613 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://zeroit.invalid/contracts/collaboration-v1/protocol/schema.json",
+  "title": "ZeroIT collaboration v1 draft bounded slice",
+  "$defs": {
+    "uuid": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"
+    },
+    "uint": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,18})$"
+    },
+    "positive": {
+      "type": "string",
+      "pattern": "^[1-9][0-9]{0,18}$"
+    },
+    "minor": {
+      "type": "string",
+      "pattern": "^(0|[1-9][0-9]{0,11}|1000000000000)$"
+    },
+    "amount": {
+      "type": "string",
+      "pattern": "^([1-9][0-9]{0,11}|1000000000000)$"
+    },
+    "hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    },
+    "token": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{42}[AEIMQUYcgkosw048]$"
+    },
+    "cursor": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d{1,6})?Z$"
+    },
+    "currency": {
+      "type": "string",
+      "pattern": "^[A-Z]{3}$"
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 100,
+      "pattern": "\\S"
+    },
+    "allocation": {
+      "type": "object",
+      "properties": {
+        "participant_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "amount_minor": {
+          "$ref": "#/$defs/minor"
+        }
+      },
+      "required": [
+        "participant_id",
+        "amount_minor"
+      ],
+      "additionalProperties": false
+    },
+    "group": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "group"
+        },
+        "id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "name": {
+          "$ref": "#/$defs/name"
+        },
+        "default_currency": {
+          "$ref": "#/$defs/currency"
+        },
+        "kind": {
+          "const": "GROUP"
+        },
+        "theme": {
+          "const": "CLASSIC"
+        },
+        "simplify_debts": {
+          "const": true
+        },
+        "archived": {
+          "const": false
+        },
+        "version": {
+          "$ref": "#/$defs/positive"
+        },
+        "membership_revision": {
+          "$ref": "#/$defs/positive"
+        },
+        "created_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "created_by": {
+          "$ref": "#/$defs/uuid"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "name",
+        "default_currency",
+        "kind",
+        "theme",
+        "simplify_debts",
+        "archived",
+        "version",
+        "membership_revision",
+        "created_at",
+        "created_by"
+      ],
+      "additionalProperties": false
+    },
+    "participant": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "participant"
+        },
+        "id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "display_name": {
+          "$ref": "#/$defs/name"
+        },
+        "account_id": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/uuid"
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "version": {
+          "$ref": "#/$defs/positive"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "display_name",
+        "account_id",
+        "active",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "membership": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "membership"
+        },
+        "account_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "participant_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "role": {
+          "enum": [
+            "owner",
+            "admin",
+            "member"
+          ]
+        },
+        "status": {
+          "enum": [
+            "active",
+            "left",
+            "revoked"
+          ]
+        },
+        "version": {
+          "$ref": "#/$defs/positive"
+        },
+        "membership_generation": {
+          "$ref": "#/$defs/uuid"
+        }
+      },
+      "required": [
+        "type",
+        "account_id",
+        "participant_id",
+        "role",
+        "status",
+        "version",
+        "membership_generation"
+      ],
+      "additionalProperties": false
+    },
+    "invite": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "invite"
+        },
+        "id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "role": {
+          "const": "member"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "status": {
+          "enum": [
+            "open",
+            "accepted",
+            "revoked"
+          ]
+        },
+        "version": {
+          "$ref": "#/$defs/positive"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "role",
+        "expires_at",
+        "status",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "expense_payload": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 300,
+          "pattern": "\\S"
+        },
+        "notes": {
+          "type": "string",
+          "minLength": 0,
+          "maxLength": 10000
+        },
+        "currency": {
+          "$ref": "#/$defs/currency"
+        },
+        "currency_scale": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 3
+        },
+        "amount_minor": {
+          "$ref": "#/$defs/amount"
+        },
+        "occurred_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "split_mode": {
+          "const": "EQUAL"
+        },
+        "participant_order": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/uuid"
+          },
+          "minItems": 1,
+          "maxItems": 100,
+          "uniqueItems": true
+        },
+        "paid": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/allocation"
+          },
+          "minItems": 1,
+          "maxItems": 100
+        },
+        "owed": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/allocation"
+          },
+          "minItems": 1,
+          "maxItems": 100
+        }
+      },
+      "required": [
+        "title",
+        "notes",
+        "currency",
+        "currency_scale",
+        "amount_minor",
+        "occurred_at",
+        "split_mode",
+        "participant_order",
+        "paid",
+        "owed"
+      ],
+      "additionalProperties": false
+    },
+    "expense": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "const": "expense"
+        },
+        "id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "version": {
+          "$ref": "#/$defs/positive"
+        },
+        "deleted": {
+          "const": false
+        },
+        "created_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "created_by": {
+          "$ref": "#/$defs/uuid"
+        },
+        "value": {
+          "$ref": "#/$defs/expense_payload"
+        }
+      },
+      "required": [
+        "type",
+        "id",
+        "version",
+        "deleted",
+        "created_at",
+        "created_by",
+        "value"
+      ],
+      "additionalProperties": false
+    },
+    "record": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/group"
+        },
+        {
+          "$ref": "#/$defs/participant"
+        },
+        {
+          "$ref": "#/$defs/membership"
+        },
+        {
+          "$ref": "#/$defs/invite"
+        },
+        {
+          "$ref": "#/$defs/expense"
+        }
+      ]
+    },
+    "group.create": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "group_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "entity_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/uuid"
+          },
+          "minItems": 0,
+          "maxItems": 25,
+          "uniqueItems": true
+        },
+        "action": {
+          "const": "group.create"
+        },
+        "expected_feed_epoch": {
+          "type": "null"
+        },
+        "expected_entity_version": {
+          "const": "0"
+        },
+        "expected_membership_revision": {
+          "const": "0"
+        },
+        "expected_membership_generation": {
+          "type": "null"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "$ref": "#/$defs/name"
+            },
+            "default_currency": {
+              "$ref": "#/$defs/currency"
+            },
+            "owner_participant_id": {
+              "$ref": "#/$defs/uuid"
+            },
+            "owner_display_name": {
+              "$ref": "#/$defs/name"
+            }
+          },
+          "required": [
+            "name",
+            "default_currency",
+            "owner_participant_id",
+            "owner_display_name"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "protocol_version",
+        "operation_id",
+        "group_id",
+        "entity_id",
+        "dependencies",
+        "action",
+        "expected_feed_epoch",
+        "expected_entity_version",
+        "expected_membership_revision",
+        "expected_membership_generation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "invite.issue": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "group_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "entity_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/uuid"
+          },
+          "minItems": 0,
+          "maxItems": 25,
+          "uniqueItems": true
+        },
+        "action": {
+          "const": "invite.issue"
+        },
+        "expected_feed_epoch": {
+          "$ref": "#/$defs/uuid"
+        },
+        "expected_entity_version": {
+          "const": "0"
+        },
+        "expected_membership_revision": {
+          "$ref": "#/$defs/positive"
+        },
+        "expected_membership_generation": {
+          "$ref": "#/$defs/uuid"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "$ref": "#/$defs/token"
+            },
+            "role": {
+              "const": "member"
+            }
+          },
+          "required": [
+            "token",
+            "role"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "protocol_version",
+        "operation_id",
+        "group_id",
+        "entity_id",
+        "dependencies",
+        "action",
+        "expected_feed_epoch",
+        "expected_entity_version",
+        "expected_membership_revision",
+        "expected_membership_generation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "invite.accept": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "group_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "entity_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/uuid"
+          },
+          "minItems": 0,
+          "maxItems": 25,
+          "uniqueItems": true
+        },
+        "action": {
+          "const": "invite.accept"
+        },
+        "expected_feed_epoch": {
+          "$ref": "#/$defs/uuid"
+        },
+        "expected_entity_version": {
+          "$ref": "#/$defs/positive"
+        },
+        "expected_membership_revision": {
+          "type": "null"
+        },
+        "expected_membership_generation": {
+          "type": "null"
+        },
+        "payload": {
+          "oneOf": [
+            {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "$ref": "#/$defs/token"
+                },
+                "join_mode": {
+                  "const": "new"
+                },
+                "new_participant_id": {
+                  "$ref": "#/$defs/uuid"
+                },
+                "display_name": {
+                  "$ref": "#/$defs/name"
+                }
+              },
+              "required": [
+                "token",
+                "join_mode",
+                "new_participant_id",
+                "display_name"
+              ],
+              "additionalProperties": false
+            },
+            {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "$ref": "#/$defs/token"
+                },
+                "join_mode": {
+                  "const": "rejoin"
+                }
+              },
+              "required": [
+                "token",
+                "join_mode"
+              ],
+              "additionalProperties": false
+            }
+          ]
+        }
+      },
+      "required": [
+        "protocol_version",
+        "operation_id",
+        "group_id",
+        "entity_id",
+        "dependencies",
+        "action",
+        "expected_feed_epoch",
+        "expected_entity_version",
+        "expected_membership_revision",
+        "expected_membership_generation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "invite.revoke": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "group_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "entity_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/uuid"
+          },
+          "minItems": 0,
+          "maxItems": 25,
+          "uniqueItems": true
+        },
+        "action": {
+          "const": "invite.revoke"
+        },
+        "expected_feed_epoch": {
+          "$ref": "#/$defs/uuid"
+        },
+        "expected_entity_version": {
+          "$ref": "#/$defs/positive"
+        },
+        "expected_membership_revision": {
+          "$ref": "#/$defs/positive"
+        },
+        "expected_membership_generation": {
+          "$ref": "#/$defs/uuid"
+        },
+        "payload": {
+          "type": "object",
+          "properties": {},
+          "required": [],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "protocol_version",
+        "operation_id",
+        "group_id",
+        "entity_id",
+        "dependencies",
+        "action",
+        "expected_feed_epoch",
+        "expected_entity_version",
+        "expected_membership_revision",
+        "expected_membership_generation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "expense.create": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "group_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "entity_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/uuid"
+          },
+          "minItems": 0,
+          "maxItems": 25,
+          "uniqueItems": true
+        },
+        "action": {
+          "const": "expense.create"
+        },
+        "expected_feed_epoch": {
+          "$ref": "#/$defs/uuid"
+        },
+        "expected_entity_version": {
+          "const": "0"
+        },
+        "expected_membership_revision": {
+          "$ref": "#/$defs/positive"
+        },
+        "expected_membership_generation": {
+          "$ref": "#/$defs/uuid"
+        },
+        "payload": {
+          "$ref": "#/$defs/expense_payload"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "operation_id",
+        "group_id",
+        "entity_id",
+        "dependencies",
+        "action",
+        "expected_feed_epoch",
+        "expected_entity_version",
+        "expected_membership_revision",
+        "expected_membership_generation",
+        "payload"
+      ],
+      "additionalProperties": false
+    },
+    "command": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/group.create"
+        },
+        {
+          "$ref": "#/$defs/invite.issue"
+        },
+        {
+          "$ref": "#/$defs/invite.accept"
+        },
+        {
+          "$ref": "#/$defs/invite.revoke"
+        },
+        {
+          "$ref": "#/$defs/expense.create"
+        }
+      ]
+    },
+    "command_batch": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "commands": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/command"
+          },
+          "minItems": 1,
+          "maxItems": 25
+        }
+      },
+      "required": [
+        "protocol_version",
+        "commands"
+      ],
+      "additionalProperties": false
+    },
+    "terminal_error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "enum": [
+            "MALFORMED_REQUEST",
+            "REQUEST_TOO_LARGE",
+            "ACCOUNT_DISABLED",
+            "SESSION_REVOKED",
+            "MEMBERSHIP_GENERATION_MISMATCH",
+            "GROUP_REVISION_MISMATCH",
+            "VALIDATION_FAILED",
+            "FORBIDDEN",
+            "NOT_FOUND",
+            "OPERATION_ID_REUSE",
+            "ENTITY_VERSION_MISMATCH",
+            "MEMBERSHIP_VERSION_MISMATCH",
+            "INVITE_UNAVAILABLE",
+            "ALREADY_MEMBER",
+            "INVITE_EXPIRED",
+            "INVITE_REVOKED",
+            "INVITE_RECIPIENT_MISMATCH",
+            "INVITE_ALREADY_ACCEPTED",
+            "PARTICIPANT_ALREADY_CLAIMED",
+            "DEPENDENCY_FAILED",
+            "UNSUPPORTED_VERSION",
+            "UNKNOWN_FIELD",
+            "RESYNC_REQUIRED",
+            "SNAPSHOT_EXPIRED",
+            "EPOCH_MISMATCH"
+          ]
+        },
+        "retryable": {
+          "const": false
+        }
+      },
+      "required": [
+        "code",
+        "retryable"
+      ],
+      "additionalProperties": false
+    },
+    "transient_error": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "enum": [
+            "UNAUTHENTICATED",
+            "AUTH_CHECK_UNAVAILABLE",
+            "RATE_LIMITED",
+            "SERVICE_UNAVAILABLE",
+            "DEPENDENCY_PENDING"
+          ]
+        },
+        "retryable": {
+          "const": true
+        }
+      },
+      "required": [
+        "code",
+        "retryable"
+      ],
+      "additionalProperties": false
+    },
+    "error": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/terminal_error"
+        },
+        {
+          "$ref": "#/$defs/transient_error"
+        }
+      ]
+    },
+    "error_response": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "error": {
+          "$ref": "#/$defs/error"
+        },
+        "request_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400
+        }
+      },
+      "required": [
+        "protocol_version",
+        "error",
+        "request_id"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "retry_after_seconds"
+            ]
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "properties": {
+                  "code": {
+                    "enum": [
+                      "RATE_LIMITED",
+                      "SERVICE_UNAVAILABLE",
+                      "AUTH_CHECK_UNAVAILABLE"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "error": {
+                "properties": {
+                  "code": {
+                    "const": "RATE_LIMITED"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "retry_after_seconds"
+            ]
+          }
+        }
+      ]
+    },
+    "accepted": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_hash": {
+          "$ref": "#/$defs/hash"
+        },
+        "status": {
+          "const": "accepted"
+        },
+        "receipt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "replayed": {
+          "type": "boolean"
+        },
+        "entity_version": {
+          "$ref": "#/$defs/positive"
+        },
+        "group_revision": {
+          "$ref": "#/$defs/positive"
+        },
+        "feed_epoch": {
+          "$ref": "#/$defs/uuid"
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record"
+          },
+          "minItems": 1,
+          "maxItems": 200
+        }
+      },
+      "required": [
+        "protocol_version",
+        "operation_id",
+        "request_hash",
+        "status",
+        "receipt_id",
+        "replayed",
+        "entity_version",
+        "group_revision",
+        "feed_epoch",
+        "records"
+      ],
+      "additionalProperties": false
+    },
+    "terminal_receipt": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_hash": {
+          "$ref": "#/$defs/hash"
+        },
+        "status": {
+          "enum": [
+            "rejected",
+            "conflicted"
+          ]
+        },
+        "receipt_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "replayed": {
+          "type": "boolean"
+        },
+        "error": {
+          "$ref": "#/$defs/terminal_error"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "operation_id",
+        "request_hash",
+        "status",
+        "receipt_id",
+        "replayed",
+        "error"
+      ],
+      "additionalProperties": false
+    },
+    "revoked_receipt": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "request_hash": {
+          "$ref": "#/$defs/hash"
+        },
+        "status": {
+          "const": "accepted_but_access_revoked"
+        },
+        "receipt_id": {
+          "$ref": "#/$defs/uuid"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "operation_id",
+        "request_hash",
+        "status",
+        "receipt_id"
+      ],
+      "additionalProperties": false
+    },
+    "unknown_operation": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "status": {
+          "const": "unknown"
+        },
+        "feed_epoch": {
+          "$ref": "#/$defs/uuid"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "operation_id",
+        "status",
+        "feed_epoch"
+      ],
+      "additionalProperties": false
+    },
+    "receipt": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/accepted"
+        },
+        {
+          "$ref": "#/$defs/terminal_receipt"
+        },
+        {
+          "$ref": "#/$defs/revoked_receipt"
+        }
+      ]
+    },
+    "operation_lookup": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/receipt"
+        },
+        {
+          "$ref": "#/$defs/unknown_operation"
+        }
+      ]
+    },
+    "transient_result": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "error": {
+          "$ref": "#/$defs/transient_error"
+        },
+        "retry_after_seconds": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 86400
+        }
+      },
+      "required": [
+        "protocol_version",
+        "operation_id",
+        "error"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "required": [
+              "retry_after_seconds"
+            ]
+          },
+          "then": {
+            "properties": {
+              "error": {
+                "properties": {
+                  "code": {
+                    "enum": [
+                      "RATE_LIMITED",
+                      "SERVICE_UNAVAILABLE",
+                      "AUTH_CHECK_UNAVAILABLE"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "error": {
+                "properties": {
+                  "code": {
+                    "const": "RATE_LIMITED"
+                  }
+                }
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "retry_after_seconds"
+            ]
+          }
+        }
+      ]
+    },
+    "command_result": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/receipt"
+        },
+        {
+          "$ref": "#/$defs/transient_result"
+        }
+      ]
+    },
+    "batch_response": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "results": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/command_result"
+          },
+          "minItems": 1,
+          "maxItems": 25
+        }
+      },
+      "required": [
+        "protocol_version",
+        "results"
+      ],
+      "additionalProperties": false
+    },
+    "event": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "$ref": "#/$defs/positive"
+        },
+        "operation_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "actor_account_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "committed_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "action": {
+          "enum": [
+            "group.create",
+            "invite.issue",
+            "invite.accept",
+            "invite.revoke",
+            "expense.create"
+          ]
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record"
+          },
+          "minItems": 1,
+          "maxItems": 200
+        }
+      },
+      "required": [
+        "revision",
+        "operation_id",
+        "actor_account_id",
+        "committed_at",
+        "action",
+        "records"
+      ],
+      "additionalProperties": false
+    },
+    "feed": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "group_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "membership_generation": {
+          "$ref": "#/$defs/uuid"
+        },
+        "feed_epoch": {
+          "$ref": "#/$defs/uuid"
+        },
+        "after_revision": {
+          "$ref": "#/$defs/uint"
+        },
+        "high_water_revision": {
+          "$ref": "#/$defs/uint"
+        },
+        "events": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/event"
+          },
+          "minItems": 0,
+          "maxItems": 100
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "next_cursor": {
+          "$ref": "#/$defs/cursor"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "group_id",
+        "membership_generation",
+        "feed_epoch",
+        "after_revision",
+        "high_water_revision",
+        "events",
+        "has_more",
+        "next_cursor"
+      ],
+      "additionalProperties": false
+    },
+    "discovery_change": {
+      "type": "object",
+      "properties": {
+        "revision": {
+          "$ref": "#/$defs/positive"
+        },
+        "group_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "membership_generation": {
+          "$ref": "#/$defs/uuid"
+        },
+        "status": {
+          "enum": [
+            "active",
+            "left",
+            "revoked"
+          ]
+        },
+        "membership_version": {
+          "$ref": "#/$defs/positive"
+        },
+        "role": {
+          "anyOf": [
+            {
+              "enum": [
+                "owner",
+                "admin",
+                "member"
+              ]
+            },
+            {
+              "type": "null"
+            }
+          ]
+        }
+      },
+      "required": [
+        "revision",
+        "group_id",
+        "membership_generation",
+        "status",
+        "membership_version",
+        "role"
+      ],
+      "additionalProperties": false
+    },
+    "discovery": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "account_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "feed_epoch": {
+          "$ref": "#/$defs/uuid"
+        },
+        "after_revision": {
+          "$ref": "#/$defs/uint"
+        },
+        "high_water_revision": {
+          "$ref": "#/$defs/uint"
+        },
+        "changes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/discovery_change"
+          },
+          "minItems": 0,
+          "maxItems": 100
+        },
+        "has_more": {
+          "type": "boolean"
+        },
+        "next_cursor": {
+          "$ref": "#/$defs/cursor"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "account_id",
+        "feed_epoch",
+        "after_revision",
+        "high_water_revision",
+        "changes",
+        "has_more",
+        "next_cursor"
+      ],
+      "additionalProperties": false
+    },
+    "snapshot_request": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        }
+      },
+      "required": [
+        "protocol_version"
+      ],
+      "additionalProperties": false
+    },
+    "snapshot_manifest": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "snapshot_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "group_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "account_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "membership_generation": {
+          "$ref": "#/$defs/uuid"
+        },
+        "feed_epoch": {
+          "$ref": "#/$defs/uuid"
+        },
+        "high_water_revision": {
+          "$ref": "#/$defs/uint"
+        },
+        "created_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "expires_at": {
+          "$ref": "#/$defs/timestamp"
+        },
+        "page_count": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 10000
+        },
+        "page_hashes": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/hash"
+          },
+          "minItems": 1,
+          "maxItems": 10000
+        },
+        "manifest_hash": {
+          "$ref": "#/$defs/hash"
+        },
+        "changes_cursor": {
+          "$ref": "#/$defs/cursor"
+        },
+        "snapshot_token": {
+          "$ref": "#/$defs/cursor"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "snapshot_id",
+        "group_id",
+        "account_id",
+        "membership_generation",
+        "feed_epoch",
+        "high_water_revision",
+        "created_at",
+        "expires_at",
+        "page_count",
+        "page_hashes",
+        "manifest_hash",
+        "changes_cursor",
+        "snapshot_token"
+      ],
+      "additionalProperties": false
+    },
+    "snapshot_page": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "snapshot_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "page_index": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9999
+        },
+        "records": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/record"
+          },
+          "minItems": 0,
+          "maxItems": 200
+        }
+      },
+      "required": [
+        "protocol_version",
+        "snapshot_id",
+        "page_index",
+        "records"
+      ],
+      "additionalProperties": false
+    },
+    "bootstrap_request": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "display_name": {
+          "$ref": "#/$defs/name"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "display_name"
+      ],
+      "additionalProperties": false
+    },
+    "bootstrap_response": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "account_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "display_name": {
+          "$ref": "#/$defs/name"
+        },
+        "status": {
+          "const": "enabled"
+        },
+        "created_at": {
+          "$ref": "#/$defs/timestamp"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "account_id",
+        "display_name",
+        "status",
+        "created_at"
+      ],
+      "additionalProperties": false
+    },
+    "invite_resolve_request": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "token": {
+          "$ref": "#/$defs/token"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "token"
+      ],
+      "additionalProperties": false
+    },
+    "invite_resolution": {
+      "type": "object",
+      "properties": {
+        "protocol_version": {
+          "const": 1
+        },
+        "group_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "invite_id": {
+          "$ref": "#/$defs/uuid"
+        },
+        "invite_version": {
+          "$ref": "#/$defs/positive"
+        },
+        "feed_epoch": {
+          "$ref": "#/$defs/uuid"
+        }
+      },
+      "required": [
+        "protocol_version",
+        "group_id",
+        "invite_id",
+        "invite_version",
+        "feed_epoch"
+      ],
+      "additionalProperties": false
+    }
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/command_batch"
+    },
+    {
+      "$ref": "#/$defs/batch_response"
+    },
+    {
+      "$ref": "#/$defs/operation_lookup"
+    },
+    {
+      "$ref": "#/$defs/feed"
+    },
+    {
+      "$ref": "#/$defs/discovery"
+    },
+    {
+      "$ref": "#/$defs/snapshot_request"
+    },
+    {
+      "$ref": "#/$defs/snapshot_manifest"
+    },
+    {
+      "$ref": "#/$defs/snapshot_page"
+    },
+    {
+      "$ref": "#/$defs/error_response"
+    },
+    {
+      "$ref": "#/$defs/invite_resolve_request"
+    },
+    {
+      "$ref": "#/$defs/invite_resolution"
+    },
+    {
+      "$ref": "#/$defs/bootstrap_request"
+    },
+    {
+      "$ref": "#/$defs/bootstrap_response"
+    }
+  ]
+}

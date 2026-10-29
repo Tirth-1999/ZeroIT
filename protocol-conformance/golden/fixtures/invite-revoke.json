@@ -1,0 +1,13 @@
+{
+  "protocol_version": 1,
+  "operation_id": "00000000-0000-4000-8000-000000000024",
+  "group_id": "00000000-0000-4000-8000-000000000002",
+  "entity_id": "00000000-0000-4000-8000-000000000006",
+  "dependencies": [],
+  "expected_feed_epoch": "00000000-0000-4000-8000-000000000011",
+  "expected_entity_version": "1",
+  "expected_membership_revision": "2",
+  "expected_membership_generation": "00000000-0000-4000-8000-000000000012",
+  "action": "invite.revoke",
+  "payload": {}
+}

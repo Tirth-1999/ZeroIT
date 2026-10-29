@@ -1,0 +1,9 @@
+{
+  "type": "membership",
+  "account_id": "00000000-0000-4000-8000-000000000008",
+  "participant_id": "00000000-0000-4000-8000-000000000004",
+  "role": "owner",
+  "status": "active",
+  "version": "1",
+  "membership_generation": "00000000-0000-4000-8000-000000000012"
+}

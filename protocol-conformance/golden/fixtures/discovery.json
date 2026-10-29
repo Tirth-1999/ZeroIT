@@ -1,0 +1,19 @@
+{
+  "protocol_version": 1,
+  "account_id": "00000000-0000-4000-8000-000000000008",
+  "feed_epoch": "00000000-0000-4000-8000-000000000011",
+  "after_revision": "0",
+  "high_water_revision": "1",
+  "changes": [
+    {
+      "revision": "1",
+      "group_id": "00000000-0000-4000-8000-000000000002",
+      "membership_generation": "00000000-0000-4000-8000-000000000012",
+      "status": "active",
+      "membership_version": "1",
+      "role": "owner"
+    }
+  ],
+  "has_more": false,
+  "next_cursor": "synthetic-cursor"
+}

@@ -1,0 +1,44 @@
+{
+  "protocol_version": 1,
+  "operation_id": "00000000-0000-4000-8000-000000000021",
+  "request_hash": "8cf797c141978858adc514d9122a8d2d835d42961b9e6b84afab4ad35a8f40c6",
+  "status": "accepted",
+  "receipt_id": "00000000-0000-4000-8000-000000000010",
+  "replayed": false,
+  "entity_version": "1",
+  "group_revision": "1",
+  "feed_epoch": "00000000-0000-4000-8000-000000000011",
+  "records": [
+    {
+      "type": "group",
+      "id": "00000000-0000-4000-8000-000000000002",
+      "name": "Synthetic trip",
+      "default_currency": "USD",
+      "kind": "GROUP",
+      "theme": "CLASSIC",
+      "simplify_debts": true,
+      "archived": false,
+      "version": "1",
+      "membership_revision": "1",
+      "created_at": "2026-10-26T05:00:00Z",
+      "created_by": "00000000-0000-4000-8000-000000000008"
+    },
+    {
+      "type": "participant",
+      "id": "00000000-0000-4000-8000-000000000004",
+      "display_name": "A",
+      "account_id": "00000000-0000-4000-8000-000000000008",
+      "active": true,
+      "version": "1"
+    },
+    {
+      "type": "membership",
+      "account_id": "00000000-0000-4000-8000-000000000008",
+      "participant_id": "00000000-0000-4000-8000-000000000004",
+      "role": "owner",
+      "status": "active",
+      "version": "1",
+      "membership_generation": "00000000-0000-4000-8000-000000000012"
+    }
+  ]
+}

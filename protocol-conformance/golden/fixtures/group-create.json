@@ -1,0 +1,18 @@
+{
+  "protocol_version": 1,
+  "operation_id": "00000000-0000-4000-8000-000000000021",
+  "group_id": "00000000-0000-4000-8000-000000000002",
+  "entity_id": "00000000-0000-4000-8000-000000000002",
+  "dependencies": [],
+  "expected_feed_epoch": null,
+  "expected_entity_version": "0",
+  "expected_membership_revision": "0",
+  "expected_membership_generation": null,
+  "action": "group.create",
+  "payload": {
+    "name": "Synthetic trip",
+    "default_currency": "USD",
+    "owner_participant_id": "00000000-0000-4000-8000-000000000004",
+    "owner_display_name": "A"
+  }
+}

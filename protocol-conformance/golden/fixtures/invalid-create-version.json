@@ -1,0 +1,41 @@
+{
+  "protocol_version": 1,
+  "operation_id": "00000000-0000-4000-8000-000000000001",
+  "group_id": "00000000-0000-4000-8000-000000000002",
+  "entity_id": "00000000-0000-4000-8000-000000000003",
+  "dependencies": [],
+  "expected_feed_epoch": "00000000-0000-4000-8000-000000000011",
+  "expected_entity_version": "1",
+  "expected_membership_revision": "2",
+  "expected_membership_generation": "00000000-0000-4000-8000-000000000012",
+  "action": "expense.create",
+  "payload": {
+    "title": "Dinner",
+    "notes": "",
+    "currency": "USD",
+    "currency_scale": 2,
+    "amount_minor": "6000",
+    "occurred_at": "2026-10-26T05:00:00Z",
+    "split_mode": "EQUAL",
+    "participant_order": [
+      "00000000-0000-4000-8000-000000000004",
+      "00000000-0000-4000-8000-000000000005"
+    ],
+    "paid": [
+      {
+        "participant_id": "00000000-0000-4000-8000-000000000004",
+        "amount_minor": "6000"
+      }
+    ],
+    "owed": [
+      {
+        "participant_id": "00000000-0000-4000-8000-000000000004",
+        "amount_minor": "3000"
+      },
+      {
+        "participant_id": "00000000-0000-4000-8000-000000000005",
+        "amount_minor": "3000"
+      }
+    ]
+  }
+}

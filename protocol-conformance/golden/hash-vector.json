@@ -1,0 +1,6 @@
+{
+  "definition": "command",
+  "fixture": "fixtures/expense-create.json",
+  "canonical_utf8": "{\"action\":\"expense.create\",\"dependencies\":[],\"entity_id\":\"00000000-0000-4000-8000-000000000003\",\"expected_entity_version\":\"0\",\"expected_feed_epoch\":\"00000000-0000-4000-8000-000000000011\",\"expected_membership_generation\":\"00000000-0000-4000-8000-000000000012\",\"expected_membership_revision\":\"2\",\"group_id\":\"00000000-0000-4000-8000-000000000002\",\"operation_id\":\"00000000-0000-4000-8000-000000000001\",\"payload\":{\"amount_minor\":\"6000\",\"currency\":\"USD\",\"currency_scale\":2,\"notes\":\"\",\"occurred_at\":\"2026-10-26T05:00:00Z\",\"owed\":[{\"amount_minor\":\"3000\",\"participant_id\":\"00000000-0000-4000-8000-000000000004\"},{\"amount_minor\":\"3000\",\"participant_id\":\"00000000-0000-4000-8000-000000000005\"}],\"paid\":[{\"amount_minor\":\"6000\",\"participant_id\":\"00000000-0000-4000-8000-000000000004\"}],\"participant_order\":[\"00000000-0000-4000-8000-000000000004\",\"00000000-0000-4000-8000-000000000005\"],\"split_mode\":\"EQUAL\",\"title\":\"Dinner\"},\"protocol_version\":1}",
+  "sha256": "26cbb9c3c06d26907dd63d5f6d54341c81fcfdc091aba436b32c0541effec119"
+}

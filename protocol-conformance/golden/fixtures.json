@@ -1,0 +1,541 @@
+[
+  {
+    "file": "fixtures/expense-create.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/group-create.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invite-issue.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invite-accept.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invite-revoke.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/batch.json",
+    "definition": "command_batch",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/accepted.json",
+    "definition": "receipt",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/feed.json",
+    "definition": "feed",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/snapshot-page.json",
+    "definition": "snapshot_page",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/snapshot-manifest.json",
+    "definition": "snapshot_manifest",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/snapshot-request.json",
+    "definition": "snapshot_request",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/discovery.json",
+    "definition": "discovery",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/rejected.json",
+    "definition": "receipt",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/conflicted.json",
+    "definition": "receipt",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/revoked-receipt.json",
+    "definition": "receipt",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/unknown-operation.json",
+    "definition": "operation_lookup",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/retryable-error.json",
+    "definition": "error_response",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/batch-response.json",
+    "definition": "batch_response",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-numeric-money.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": "Money must be decimal string"
+  },
+  {
+    "file": "fixtures/invalid-leading-zero.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-over-limit.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-negative-money.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-zero-total.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-actor-spoof.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-client-hash.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-version.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-action.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-self-id.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-unknown-payload.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-short-token.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-admin-invite.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-create-version.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-accept-membership-precondition.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-calendar-time.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-empty-batch.json",
+    "definition": "command_batch",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-large-batch.json",
+    "definition": "command_batch",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-revoked-leak.json",
+    "definition": "receipt",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-retry-terminal.json",
+    "definition": "error_response",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-wrong-sum.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": "Allocation sums require semantic validation"
+  },
+  {
+    "file": "fixtures/semantic-duplicate-participant.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-self-dependency.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-wrong-group-entity.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-wrong-currency-scale.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-overflow-revision.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-feed-gap.json",
+    "definition": "feed",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-manifest-count.json",
+    "definition": "snapshot_manifest",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-missing-generation.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-generation-on-join.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-duplicate-batch.json",
+    "definition": "command_batch",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-false-has-more.json",
+    "definition": "feed",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-zero-lease.json",
+    "definition": "snapshot_manifest",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invite-resolve-request.json",
+    "definition": "invite_resolve_request",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invite-resolution.json",
+    "definition": "invite_resolution",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invite-rejoin.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-targeted-invite.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-noncanonical-token.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/bootstrap-request.json",
+    "definition": "bootstrap_request",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/bootstrap-response.json",
+    "definition": "bootstrap_response",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/group-created-receipt.json",
+    "definition": "receipt",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/canonical-participant.json",
+    "definition": "participant",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/canonical-membership.json",
+    "definition": "membership",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/canonical-group.json",
+    "definition": "group",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/canonical-invite.json",
+    "definition": "invite",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/semantic-unequal-remainder.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/expense-equal-remainder.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/expense-jpy.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/expense-kwd.json",
+    "definition": "command",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-delay-on-terminal.json",
+    "definition": "error_response",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-throttle-no-delay.json",
+    "definition": "error_response",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/valid-throttle-delay.json",
+    "definition": "error_response",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-numeric-generation.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-null-epoch.json",
+    "definition": "command",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/story-snapshot-page.json",
+    "definition": "snapshot_page",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/story-snapshot-manifest.json",
+    "definition": "snapshot_manifest",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/story-feed.json",
+    "definition": "feed",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/batch-rate-limited.json",
+    "definition": "batch_response",
+    "schema_valid": true,
+    "semantic_valid": true,
+    "reason": ""
+  },
+  {
+    "file": "fixtures/invalid-batch-rate-no-delay.json",
+    "definition": "batch_response",
+    "schema_valid": false,
+    "semantic_valid": false,
+    "reason": ""
+  }
+]

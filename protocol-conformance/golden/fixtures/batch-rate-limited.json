@@ -1,0 +1,14 @@
+{
+  "protocol_version": 1,
+  "results": [
+    {
+      "protocol_version": 1,
+      "operation_id": "00000000-0000-4000-8000-000000000001",
+      "error": {
+        "code": "RATE_LIMITED",
+        "retryable": true
+      },
+      "retry_after_seconds": 5
+    }
+  ]
+}

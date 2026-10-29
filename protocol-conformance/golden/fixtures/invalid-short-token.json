@@ -1,0 +1,16 @@
+{
+  "protocol_version": 1,
+  "operation_id": "00000000-0000-4000-8000-000000000022",
+  "group_id": "00000000-0000-4000-8000-000000000002",
+  "entity_id": "00000000-0000-4000-8000-000000000006",
+  "dependencies": [],
+  "expected_feed_epoch": "00000000-0000-4000-8000-000000000011",
+  "expected_entity_version": "0",
+  "expected_membership_revision": "1",
+  "expected_membership_generation": "00000000-0000-4000-8000-000000000012",
+  "action": "invite.issue",
+  "payload": {
+    "token": "secret",
+    "role": "member"
+  }
+}

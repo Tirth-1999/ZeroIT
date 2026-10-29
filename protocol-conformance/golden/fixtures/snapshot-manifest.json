@@ -1,0 +1,18 @@
+{
+  "protocol_version": 1,
+  "snapshot_id": "00000000-0000-4000-8000-000000000013",
+  "group_id": "00000000-0000-4000-8000-000000000002",
+  "account_id": "00000000-0000-4000-8000-000000000008",
+  "membership_generation": "00000000-0000-4000-8000-000000000012",
+  "feed_epoch": "00000000-0000-4000-8000-000000000011",
+  "high_water_revision": "4",
+  "created_at": "2026-10-26T05:00:00Z",
+  "expires_at": "2026-10-26T05:30:00Z",
+  "page_count": 1,
+  "page_hashes": [
+    "9aa0b7bcb6ed5147f263317d886a0e8d1cd980d86ac3bf72e4e5b0a7da827368"
+  ],
+  "changes_cursor": "synthetic-snapshot-continuation-cursor",
+  "manifest_hash": "8b013778b010a700d31405ef3cda639fd683f7fe5b37e2930a61082768fb24b2",
+  "snapshot_token": "synthetic-snapshot-token"
+}

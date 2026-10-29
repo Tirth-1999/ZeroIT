@@ -1,0 +1,7 @@
+{
+  "protocol_version": 1,
+  "operation_id": "00000000-0000-4000-8000-000000000001",
+  "request_hash": "26cbb9c3c06d26907dd63d5f6d54341c81fcfdc091aba436b32c0541effec119",
+  "receipt_id": "00000000-0000-4000-8000-000000000010",
+  "status": "accepted_but_access_revoked"
+}
